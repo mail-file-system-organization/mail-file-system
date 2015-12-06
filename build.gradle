@@ -5,6 +5,8 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.5
 
+sourceSets.main.java.srcDirs = ['src']
+
 repositories {
     mavenCentral()
 }
@@ -15,4 +17,21 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'
+}
+
+task run(type: Exec) {
+	executable 'java'
+	def main = 'org.mfs.Main'
+	args "-cp ${buildDir}/classes/main "+main
+}
+
+task runJar(type: Exec) {
+	executable 'java'
+	args "-jar ${buildDir}/libs/${group}${version}"
+}
+
+task runJava(type: JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+	main = 'org.mfs.Main'
+	args ''
 }
